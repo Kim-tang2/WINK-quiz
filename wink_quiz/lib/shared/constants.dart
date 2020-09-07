@@ -1,0 +1,1 @@
+var winkLogo = 'assets/images/wink.png';

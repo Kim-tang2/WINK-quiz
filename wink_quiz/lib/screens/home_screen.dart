@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:winkquiz/main.dart';
+import 'package:winkquiz/models/quiz.dart';
+import 'package:winkquiz/screens/quiz_screen.dart';
 import 'package:winkquiz/shared/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,6 +10,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Quiz> quizs = [
+    Quiz.fromMap({
+      'title': 'test',
+      'problem': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+    Quiz.fromMap({
+      'title': 'test',
+      'problem': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+    Quiz.fromMap({
+      'title': 'test',
+      'problem': ['a', 'b', 'c', 'd'],
+      'answer': 0
+    }),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -64,7 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: RaisedButton(
                     color: mainColor,
-                    onPressed: (){},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QuizScreen(
+                                    quizs: quizs,
+                                  )));
+                    },
                     child: Text(
                       '문제 풀기',
                       style: TextStyle(

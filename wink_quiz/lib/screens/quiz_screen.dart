@@ -18,6 +18,14 @@ class _QuizScreenState extends State<QuizScreen> {
   List<int> _answers = [-1, -1, -1];
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
+  SwiperController _controller = SwiperController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
             width: width * 0.85,
             height: height * 0.5,
             child: Swiper(
+              controller: _controller,
               physics: NeverScrollableScrollPhysics(),
               loop: false,
               itemCount: widget.quizs.length,
@@ -87,6 +96,42 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           Column(
             children: _buildProblem(width, quiz),
+          ),
+          Container(
+            padding: EdgeInsets.all(width * 0.024),
+            child: Center(
+              child: ButtonTheme(
+                minWidth: width * 0.5,
+                height: height * 0.05,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: RaisedButton(
+                  onPressed: _answers[_currentIndex] == -1
+                      ? null
+                      : () {
+                          if (_currentIndex == widget.quizs.length - 1) {
+                            return null;
+                          } else {
+                            _answerState = [false, false, false, false];
+                            _currentIndex += 1;
+                            _controller.next();
+                          }
+                        },
+                  textColor: Colors.white,
+                  color: mainColor,
+                  child: _currentIndex == widget.quizs.length - 1
+                      ? Text(
+                          "결과 확인",
+                          style: TextStyle(fontFamily: 'NotoSans-Regular'),
+                        )
+                      : Text(
+                          "다음 문제",
+                          style: TextStyle(fontFamily: 'NotoSans-Regular'),
+                        ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
